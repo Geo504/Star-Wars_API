@@ -9,7 +9,13 @@ class Vehicles(db.Model):
     max_speed = db.Column(db.Integer, nullable=False)
     # length = db.Column(db.Integer, nullable=False)
     # cargo_capacity = db.Column(db.Integer, nullable=False)
-    # crew = db.Column(db.Integer, nullable=False)
+    # crew = db.Column(db.Integer, nullable=False)    
+    created_at = db.Column(db.DateTime,
+                           default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime,
+                           default=db.func.current_timestamp(),
+                           onupdate=db.func.current_timestamp())
+
     
 
     def __init__(self, model, max_speed):
@@ -19,6 +25,9 @@ class Vehicles(db.Model):
         # self.length = length
         # self.cargo_capacity = cargo_capacity
         # self.crew = crew
+
+    def __repr__(self):
+        return f'<Vehicle {self.model}>'
     
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}

@@ -38,7 +38,7 @@ def get_vehicle(vehicle_uid):
         errors = {
             "get_error": f"Vehicle with the UID '{vehicle_uid}' doesn't exist."
         }
-        return jsonify(errors), 400
+        return jsonify(errors), 404
     else:
         if request.method == 'GET':
             vehicle_dict = vehicle.as_dict()

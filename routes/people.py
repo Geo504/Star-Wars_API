@@ -39,7 +39,7 @@ def get_person(person_uid):
         errors = {
             "get_error": f"Character with the UID '{person_uid}' doesn't exist."
         }
-        return jsonify(errors), 400
+        return jsonify(errors), 404
     else:
         if request.method == 'GET':
             person_dict = person.as_dict()

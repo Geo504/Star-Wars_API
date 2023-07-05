@@ -39,7 +39,7 @@ def get_planet(planet_uid):
         errors = {
             "get_error": f"Planet with the ID '{planet_uid}' doesn't exist."
         }
-        return jsonify(errors), 400
+        return jsonify(errors), 404
     else:
         if request.method == 'GET':
             planet_dict = planet.as_dict()

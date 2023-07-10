@@ -1,39 +1,28 @@
 from flask import Blueprint, request, jsonify
-from utils.db import db
+
 from models.people import People
+from controllers.people_controller import get_people, post_person, get_person, update_person, delete_person
 
 people = Blueprint('people',__name__)
-
  
-@people.route("/people", methods=['GET', 'POST'])
-def get_people():
+@people.route("/api/people/", methods=['GET', 'POST'])
+def index():
     if request.method == 'GET':
-        people = People.query.all()
-        list_people = [person.as_dict() for person in people]
-        return jsonify(list_people), 200
+        return get_people()
     
     if request.method == 'POST':
-        request_body = request.json
-        if type(request_body) != dict or "name" not in request_body or "gender" not in request_body:
+        if type(request.json) != dict or "name" not in request.json or "gender" not in request.json:
             errors = {
                 "add_error": "The request body must be an object with at least 'name' and 'gender' properties."
             }
             return jsonify(errors), 400
         else:
-            new_person = People(
-                name=request_body["name"],
-                gender=request_body["gender"]
-                )
-            db.session.add(new_person)
-            db.session.commit()
-            people = People.query.all()
-            list_people = [person.as_dict() for person in people]
-            return jsonify(list_people), 200
+            return post_person()
 
 
 
-@people.route('/people/<person_uid>', methods=['GET', 'PUT', 'DELETE'])
-def get_person(person_uid):
+@people.route('/api/people/uid/<person_uid>', methods=['GET', 'PUT', 'DELETE'])
+def index_person(person_uid):
     person = People.query.get(person_uid)
     if person is None:
         errors = {
@@ -42,27 +31,10 @@ def get_person(person_uid):
         return jsonify(errors), 404
     else:
         if request.method == 'GET':
-            person_dict = person.as_dict()
-            return jsonify(person_dict), 200
+            return get_person(person)
         
         if request.method == 'PUT':
-            request_body = request.json
-
-            person_dict = person.as_dict()
-            person_dict.update(request_body)
-            
-            person.name = person_dict["name"]
-            person.gender = person_dict["gender"]
-            db.session.commit()
-
-            people = People.query.get(person_uid)
-            people_dict = people.as_dict()
-            return jsonify(people_dict), 200
+            return update_person(person)
         
         if request.method == 'DELETE':
-            db.session.delete(person)
-            db.session.commit()
-
-            people = People.query.all()
-            list_people = [person.as_dict() for person in people]
-            return jsonify(list_people), 200
+            return delete_person(person)

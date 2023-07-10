@@ -1,68 +1,61 @@
 from flask import Blueprint, request, jsonify
-from utils.db import db
+from sqlalchemy.exc import IntegrityError
+import bcrypt
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+
 from models.users import User
+from controllers.users_controller import get_users, post_user, get_user, update_user, delete_user
 
 users = Blueprint('users',__name__)
-
  
-@users.route("/users", methods=['GET', 'POST'])
-def get_users():
-    if request.method == 'GET':
-        users = User.query.all()
-        list_users = [user.as_dict() for user in users]
-        return jsonify(list_users), 200
-    
-    if request.method == 'POST':
-        request_body = request.json
-        if type(request_body) != dict or "user_name" not in request_body or "email" not in request_body:
-            errors = {
-                "add_error": "The request body must be an object with at least 'user_name' and 'email' properties."
-            }
-            return jsonify(errors), 400
-        else:
-            new_user = User(
-                  user_name=request_body["user_name"],
-                  email=request_body["email"]
-                )
-            db.session.add(new_user)
-            db.session.commit()
-            users = User.query.all()
-            list_users = [user.as_dict() for user in users]
-            return jsonify(list_users), 200
+@users.route("/api/users/", methods=['GET', 'POST'])
+def index():
+    try:
+        if request.method == 'GET':
+            return get_users()
+        
+        if request.method == 'POST':
+            if "email" not in request.json or "user_name" not in request.json or "password" not in request.json:
+                return 'missing an "email", "user_name" or "password" keys in json', 400
+            else:
+                return post_user()
+    except IntegrityError:
+        return 'User with that email is already registered', 400
+        
 
 
 
-@users.route('/users/<users_id>', methods=['GET', 'PUT', 'DELETE'])
-def get_user(users_id):
+@users.route('/api/users/id/<users_id>', methods=['GET', 'PUT', 'DELETE'])
+def index_user(users_id):
     user = User.query.get(users_id)
     if user is None:
-        errors = {
-          "get_error": f"User with the ID '{users_id}' doesn't exist."
-        }
-        return jsonify(errors), 404
+        return f"User with the ID '{users_id}' doesn't exist.", 404
     else:
         if request.method == 'GET':
-            user_dict = user.as_dict()
-            return jsonify(user_dict), 200
+            return get_user(user)
         
         if request.method == 'PUT':
-            request_body = request.json
-
-            user_dict = user.as_dict()
-            user_dict.update(request_body)
-            
-            user.user_name = user_dict["user_name"]
-            user.email = user_dict["email"]
-            db.session.commit()
-
-            users = User.query.get(users_id)
-            users_dict = users.as_dict()
-            return jsonify(users_dict), 200
+            return update_user(user)
         
         if request.method == 'DELETE':
-            db.session.delete(user)
-            db.session.commit()
+            return delete_user(user)
 
-            users = User.query.all()
-            list_users = [user.as_dict() for user in users]
-            return jsonify(list_users), 200
+
+
+@users.route('/api/users/token', methods=['POST'])
+def create_token():
+    if "email" not in request.json or "password" not in request.json:
+            return 'missing an "email" or "password" keys in json', 400
+    
+    email_user = request.json["email"]
+    password_user = request.json["password"]
+
+    user = User.query.filter_by(email=email_user).first()
+    if user is None:
+        return 'User not found', 404
+    
+    if bcrypt.checkpw(password_user.encode('utf-8'), user.password):
+        access_token = create_access_token(identity=email_user)
+        return jsonify(access_token=access_token)
+    else:
+        return 'Wrong password!!'

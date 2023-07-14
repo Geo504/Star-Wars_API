@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import { useAppContext } from '../../Context/AppContext'
+import { LiNavBar } from "./LiNavBar";
+import {Login} from "../Login/Login"
 
 import style from "./NavBar.module.css"
-import { LiNavBar } from "./LiNavBar";
-import { Link } from "react-router-dom";
-import {Login} from "../Login/Login"
 
 export const NavBar = () => {
   const value = useAppContext();

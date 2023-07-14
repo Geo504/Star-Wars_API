@@ -11,6 +11,7 @@ export const AppProvider = ({children}) => {
   const [vehicles, setVehicles]=useResourses('vehicles');
 
   const [favorites, setFavorites] = useState([]);
+  const [token, setToken] = useState('')
 
 
   const switchFavoritesCharacter = (id) =>{
@@ -62,14 +63,15 @@ export const AppProvider = ({children}) => {
   }
 
   const store = useMemo(()=>{
-    return  {characters, planets, vehicles, favorites}
-  },[characters, planets, vehicles]);
+    return  {characters, planets, vehicles, favorites, token}
+  },[characters, planets, vehicles, favorites, token]);
 
   const actions = {
     switchFavoritesCharacter,
     switchFavoritesPlanets,
     switchFavoritesVehicles,
-    deleteFavorite
+    deleteFavorite,
+    setToken
   }
 
   return(

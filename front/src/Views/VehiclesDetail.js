@@ -20,6 +20,7 @@ export const VehicleDetail = () => {
                 vehicle={item.properties}
               />
             )};
+          return
         })
       }
     </div>

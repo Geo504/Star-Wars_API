@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from sqlalchemy.exc import IntegrityError
 # import bcrypt
-# from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from models.users import User
 from controllers.users_controller import get_users, post_user, get_user, update_user, delete_user
@@ -15,7 +15,7 @@ def index():
             return get_users()
         
         if request.method == 'POST':
-            if "email" not in request.json or "user_name" not in request.json or "password" not in request.json:
+            if "email" not in request.json or "user_name" not in request.json or "password" not in request.json or "favorites" not in request.json:
                 return 'missing an "email", "user_name" or "password" keys in json', 400
             else:
                 return post_user()
@@ -26,6 +26,7 @@ def index():
 
 
 @users.route('/api/users/id/<users_id>', methods=['GET', 'PUT', 'DELETE'])
+@jwt_required()
 def index_user(users_id):
     user = User.query.get(users_id)
     if user is None:

@@ -1,6 +1,7 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import {useResourses} from "../Hooks/useResourses"
+import { getUserData } from '../Services/getUserData'
 
 
 const AppContext = createContext();
@@ -11,7 +12,29 @@ export const AppProvider = ({children}) => {
   const [vehicles, setVehicles]=useResourses('vehicles');
 
   const [favorites, setFavorites] = useState([]);
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState('');
+  const [userId, setUserId] = useState('');
+  const [userData, setUserData] = useState({});
+
+
+
+  useEffect(()=>{
+    const localUserId = sessionStorage.getItem("userId")
+    const localToken = sessionStorage.getItem("token");
+    if (localToken && localToken!==undefined && localToken!==""){
+      setUserId(localUserId);
+      setToken(localToken);
+      return
+    } 
+  },[])
+
+  useEffect(()=>{
+    if (token && token!==undefined && token!==""){
+      getUserData(userId, token, setUserData);
+      return
+    } 
+  },[token, userId])
+
 
 
   const switchFavoritesCharacter = (id) =>{
@@ -62,16 +85,20 @@ export const AppProvider = ({children}) => {
     setFavorites(favoritesList);
   }
 
+
+
   const store = useMemo(()=>{
-    return  {characters, planets, vehicles, favorites, token}
-  },[characters, planets, vehicles, favorites, token]);
+    return  {characters, planets, vehicles, favorites, token, userData}
+  },[characters, planets, vehicles, favorites, token, userData]);
 
   const actions = {
     switchFavoritesCharacter,
     switchFavoritesPlanets,
     switchFavoritesVehicles,
     deleteFavorite,
-    setToken
+    setToken,
+    setUserId,
+    setUserData
   }
 
   return(

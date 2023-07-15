@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 import { login } from '../../Services/getAutentication'
+import { singIn } from '../../Services/createUser'
 import { useAppContext } from '../../Context/AppContext'
 
 import style from "./Login.module.css"
@@ -15,8 +16,7 @@ export const Login = () => {
   const [userName, setUserName] = useState('');
   
   const navigate = useNavigate()
-  const token = sessionStorage.getItem("token");
-  sessionStorage.removeItem("token")
+  const token = value.store.token;
 
 
   const changeLoginForm = () => {
@@ -36,11 +36,34 @@ export const Login = () => {
   
   const submitFuntion = async(e)=>{
     e.preventDefault();
-    // const urlSuffix = loginMode ? 'login' : 'singup';
-    login(email, password, value.actions.setToken).then(()=>{
-      navigate('/');
-    });
+    
+    if (loginMode==true){
+      login(email, password, value.actions.setToken, value.actions.setUserId).then(()=>{
+        navigate('/');
+        setPassword('');
+      });
+    }
+    else {
+      singIn(userName, email, password)
+      .then(()=>{
+        login(email, password, value.actions.setToken, value.actions.setUserId)
+      })
+      .then(()=>{
+        navigate('/');
+        setPassword('');
+      })
+    }
+
   }
+
+
+  const singOut = () =>{
+    sessionStorage.removeItem("token");
+    value.actions.setToken('');
+    navigate('/');
+  }
+
+  // value.store.userData.user_name
 
   return (
     <div className={'modal fade'} id={`loginModal`} data-bs-backdrop="static">
@@ -55,19 +78,19 @@ export const Login = () => {
             <div className={style.login}>
             {
               token && token!=="" && token!==undefined ?
-              (<h2>Welcome!!</h2>):
               (
                 <>
-                <h2>{loginMode?'Login':'Register'}</h2>
+                <h2>Welcome {value.store.userData.user_name}!!</h2>
+                <button className={style.log_out} onClick={singOut}>
+                <ion-icon name="log-out-outline"></ion-icon>
+                  Sing out
+                </button>
+                </>
+              ):(
+                <>
+                <h2>{loginMode?'Login':'Sing In'}</h2>
                 
                 <form onSubmit={submitFuntion}>
-                  <div className={style.input_box}>
-                    <span className={style.icon}>
-                      <ion-icon name="mail-outline"></ion-icon>
-                    </span>
-                    <input type='email' value={email} onChange={handleEmailInput} required/>
-                    <label>Email:</label>
-                  </div>
 
                   {loginMode?
                     '':
@@ -79,6 +102,14 @@ export const Login = () => {
                       <label>Username:</label>
                     </div>
                   }
+
+                  <div className={style.input_box}>
+                    <span className={style.icon}>
+                      <ion-icon name="mail-outline"></ion-icon>
+                    </span>
+                    <input type='email' value={email} onChange={handleEmailInput} required/>
+                    <label>Email:</label>
+                  </div>
 
                   <div className={style.input_box}>
                     <span className={style.icon}>
@@ -102,7 +133,7 @@ export const Login = () => {
                     <p>
                       {loginMode?"Don't have an account?":"You already have an account?"}
                       <button type='button' className={style.register_link} onClick={changeLoginForm}>
-                        {loginMode?'Register':'Login'}
+                        {loginMode?'Sing in':'Login'}
                       </button>
                     </p>
                   </div>

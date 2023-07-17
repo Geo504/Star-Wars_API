@@ -12,12 +12,11 @@ export const PlanetDetail = () => {
     <div className='container'>
       {
         value.store.planets.map(item=>{
-          if (item._id===params.id) {
+          if (item.id===params.id) {
             return (
               <DiscriptionPlanet 
-                key={item._id}
-                id={item._id}
-                planet={item.properties}
+                key={item.id}
+                planet={item}
               />
               )
           };

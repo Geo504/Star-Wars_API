@@ -37,8 +37,8 @@ export const Login = () => {
   const submitFuntion = async(e)=>{
     e.preventDefault();
     
-    if (loginMode==true){
-      login(email, password, value.actions.setToken, value.actions.setUserId).then(()=>{
+    if (loginMode===true){
+      login(email, password, value.actions.setToken).then(()=>{
         navigate('/');
         setPassword('');
       });
@@ -46,7 +46,7 @@ export const Login = () => {
     else {
       singIn(userName, email, password)
       .then(()=>{
-        login(email, password, value.actions.setToken, value.actions.setUserId)
+        login(email, password, value.actions.setToken)
       })
       .then(()=>{
         navigate('/');
@@ -63,7 +63,6 @@ export const Login = () => {
     navigate('/');
   }
 
-  // value.store.userData.user_name
 
   return (
     <div className={'modal fade'} id={`loginModal`} data-bs-backdrop="static">

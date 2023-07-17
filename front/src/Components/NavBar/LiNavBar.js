@@ -16,9 +16,9 @@ export const LiNavBar = ({favorites, deleteFavorite}) => {
     return (
       favorites.map(item=>{
         return (
-          <li key={item._id} className={`${style.liDropdown} li-Dropdown`}>
-            <a className={`${style.dropdownItem} dropdown-item pe-1`} href="#">{item.properties.name}</a>
-            <BsTrash2 className={style.iconNavBar} onClick={()=>deleteFavorite(item._id)}/>
+          <li key={item.id} className={`${style.liDropdown} li-Dropdown`}>
+            <a className={`${style.dropdownItem} dropdown-item pe-1`} href="#">{item.name?item.name:item.model}</a>
+            <BsTrash2 className={style.iconNavBar} onClick={()=>deleteFavorite(item.id)}/>
           </li>
         )
       })

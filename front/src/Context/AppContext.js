@@ -1,28 +1,25 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-import {useResourses} from "../Hooks/useResourses"
+// import {useResourses} from "../Hooks/useResourses"
+import {useResourse} from "../Hooks/useResourse"
 import { getUserData } from '../Services/getUserData'
 
 
 const AppContext = createContext();
 
 export const AppProvider = ({children}) => {
-  const [characters, setCharacter]=useResourses('people');
-  const [planets, setPlanets]=useResourses('planets');
-  const [vehicles, setVehicles]=useResourses('vehicles');
+  const [characters, setCharacter]=useResourse('people');
+  const [planets, setPlanets]=useResourse('planets');
+  const [vehicles, setVehicles]=useResourse('vehicles');
 
   const [favorites, setFavorites] = useState([]);
   const [token, setToken] = useState('');
-  const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState({});
 
 
-
   useEffect(()=>{
-    const localUserId = sessionStorage.getItem("userId")
     const localToken = sessionStorage.getItem("token");
     if (localToken && localToken!==undefined && localToken!==""){
-      setUserId(localUserId);
       setToken(localToken);
       return
     } 
@@ -30,16 +27,16 @@ export const AppProvider = ({children}) => {
 
   useEffect(()=>{
     if (token && token!==undefined && token!==""){
-      getUserData(userId, token, setUserData);
+      getUserData(token, setUserData);
       return
     } 
-  },[token, userId])
+  },[token])
 
 
 
   const switchFavoritesCharacter = (id) =>{
     const updateCharacters = characters.map(item=>{
-      if(item._id === id){
+      if(item.id === id){
         item.favorite = !item.favorite;
       }
       return item;
@@ -50,7 +47,7 @@ export const AppProvider = ({children}) => {
 
   const switchFavoritesPlanets = (id) =>{
     const updatePlanets = planets.map(item=>{
-      if(item._id === id){
+      if(item.id === id){
         item.favorite = !item.favorite;
       }
       return item;
@@ -61,7 +58,7 @@ export const AppProvider = ({children}) => {
 
   const switchFavoritesVehicles = (id) =>{
     const updateVehicles = vehicles.map(item=>{
-      if(item._id === id){
+      if(item.id === id){
         item.favorite = !item.favorite;
       }
       return item;
@@ -97,7 +94,6 @@ export const AppProvider = ({children}) => {
     switchFavoritesVehicles,
     deleteFavorite,
     setToken,
-    setUserId,
     setUserData
   }
 

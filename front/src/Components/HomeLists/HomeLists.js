@@ -17,15 +17,16 @@ export const HomeLists = () => {
           <ElementCard
             elementType={'characters'}
             uid={item.uid}
-            key={item._id}
-            id={item._id}
+            key={item.id}
+            id={item.id}
             favorite={item.favorite}
-            title={item.properties.name}
+            title={item.name}
+            img={item.image}
             favoriteFuntion={value.actions.switchFavoritesCharacter}
           >
-            <p><b>Gender:</b> {item.properties.gender}</p>
-            <p><b>Height:</b> {item.properties.height} cm.</p>
-            <p><b>Mass:</b> {item.properties.mass} kg.</p>
+            <p><b>Gender:</b> {item.gender}</p>
+            <p><b>Height:</b> {item.height} cm.</p>
+            <p><b>Mass:</b> {item.mass} kg.</p>
           </ElementCard>
         )}
       </div>
@@ -37,16 +38,17 @@ export const HomeLists = () => {
         {value.store.planets.map(item =>
           <ElementCard
             elementType={'planets'}
-            key={item._id}
-            id={item._id}
+            key={item.id}
+            id={item.id}
             uid={item.uid}
             favorite={item.favorite}
-            title={item.properties.name}
+            title={item.name}
+            img={item.image}
             favoriteFuntion={value.actions.switchFavoritesPlanets}
           >
-            <p><b>Population:</b> {item.properties.population}</p>
-            <p><b>Diameter:</b> {item.properties.diameter} km.</p>
-            <p><b>Terrain:</b> {item.properties.terrain}</p>
+            <p><b>Population:</b> {item.population}</p>
+            <p><b>Diameter:</b> {item.diameter} km.</p>
+            <p><b>Terrain:</b> {item.terrain}</p>
           </ElementCard>
         )}
       </div>
@@ -58,16 +60,17 @@ export const HomeLists = () => {
         {value.store.vehicles.map(item =>
           <ElementCard
             elementType={'vehicles'}
-            key={item._id}
-            id={item._id}
+            key={item.id}
+            id={item.id}
             uid={item.uid}
             favorite={item.favorite}
-            title={item.properties.model}
+            title={item.model}
+            img={item.image}
             favoriteFuntion={value.actions.switchFavoritesVehicles}
           >
-            <p><b>Speed:</b> {item.properties.max_atmosphering_speed}km/h</p>
-            <p><b>Passengers:</b> {item.properties.crew} </p>
-            <p><b>Cargo capacity:</b> {item.properties.cargo_capacity} tons</p>
+            <p><b>Speed:</b> {item.max_speed}km/h</p>
+            <p><b>Passengers:</b> {item.crew} </p>
+            <p><b>Cargo capacity:</b> {item.cargo_capacity} tons</p>
           </ElementCard>
         )}
       </div>

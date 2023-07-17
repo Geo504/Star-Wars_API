@@ -2,8 +2,8 @@ import React from 'react'
 
 import style from './DiscriptionVehicle.module.css'
 
-export const DiscriptionVehicle = ({id , vehicle}) => {
-  const {model, max_atmosphering_speed, crew, cargo_capacity, cost_in_credits, length} = vehicle;
+export const DiscriptionVehicle = ({vehicle}) => {
+  const {model, max_atmosphering_speed, crew, cargo_capacity, cost_in_credits, length, image, description} = vehicle;
 
   return (
     <>
@@ -12,14 +12,14 @@ export const DiscriptionVehicle = ({id , vehicle}) => {
       <div className="row g-0">
 
         <div className="col-md-8">
-          <img src={`../assets/vehicles/${id}.jpg`} className={`${style.img} img-fluid rounded-start`} />
+          <img src={image} className={`${style.img} img-fluid rounded-start`} />
         </div>
 
         <div className={`${style.cardBody} col-md-4`}>
           <div className="card-body">
             <h5 className="card-title text-center">{model}</h5>
             <p className="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+              {description}
             </p>
           </div>
         </div>

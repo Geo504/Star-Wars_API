@@ -12,12 +12,11 @@ export const VehicleDetail = () => {
     <div className='container'>
       {
         value.store.vehicles.map(item=>{
-          if (item._id===params.id) {
+          if (item.id===params.id) {
             return (
               <DiscriptionVehicle 
-                key={item._id}
-                id={item._id} 
-                vehicle={item.properties}
+                key={item.id}
+                vehicle={item}
               />
             )};
           return

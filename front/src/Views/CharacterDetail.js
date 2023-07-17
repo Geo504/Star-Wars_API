@@ -12,12 +12,11 @@ export const CharacterDetail = () => {
     <div className='container'>
       {
         value.store.characters.map(item=>{
-          if (item._id===params.id) {
+          if (item.id===params.id) {
             return (
               <DiscriptionCharacter 
-                key={item._id}
-                id={item._id} 
-                character={item.properties}
+                key={item.id}
+                character={item}
               />
             )};
         })

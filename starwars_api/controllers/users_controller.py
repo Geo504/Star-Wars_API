@@ -8,12 +8,6 @@ from models.people import People
 # from models.vehicles import Vehicles
 
 
-def get_users():
-    users = User.query.all()
-    users_list = [user.serialize_with_favorites() for user in users]
-    return jsonify(users_list), 200
-
-
 def post_user():
     user_username = request.json.get('user_name')
     user_email = request.json.get('email')
@@ -41,14 +35,9 @@ def post_user():
     return jsonify(new_user.serialize_with_favorites()), 201
 
 
-def get_user(user):
-    return jsonify(user.serialize_with_favorites()), 200
-
-
 def update_user(user):
     user_username = request.json.get('user_name')
     user_favorites = request.json.get('favorites')
-
     favorites_db = []
 
     for favorite in user_favorites:
@@ -63,16 +52,17 @@ def update_user(user):
         # if favorite_vehicles:
         #     favorites_db.append(favorite_vehicles)
     
-    user.user_name = user_username
-    user.favorites = favorites_db
+    user_db = User.query.get(user["id"])
+    user_db.user_name = user_username
+    user_db.favorites = favorites_db
     db.session.commit()
 
-    updated_user = User.query.get(user.id)
+    updated_user = User.query.get(user_db.id)
     return jsonify(updated_user.serialize_with_favorites()), 200
 
 
 def delete_user(user):
-    db.session.delete(user)
+    db.session.delete(User.query.get(user["id"]))
     db.session.commit()
 
     users = User.query.all()

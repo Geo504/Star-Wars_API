@@ -2,8 +2,8 @@ import React from 'react'
 
 import style from './DiscriptionCharacter.module.css'
 
-export const DiscriptionCharacter = ({id ,character}) => {
-  const {name, gender, height, mass, skin_color, birth_year} = character;
+export const DiscriptionCharacter = ({character}) => {
+  const {name, gender, height, mass, skin_color, birth_year, description, image} = character;
 
   return (
     <>
@@ -12,14 +12,14 @@ export const DiscriptionCharacter = ({id ,character}) => {
       <div className="row g-0">
 
         <div className="col-md-8">
-          <img src={`../assets/characters/${id}.jpg`} className={`${style.img} img-fluid rounded-start`} />
+          <img src={image} className={`${style.img} img-fluid rounded-start`} />
         </div>
 
         <div className={`${style.cardBody} col-md-4`}>
           <div className="card-body">
             <h5 className="card-title text-center">{name}</h5>
             <p className="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+              {description}
             </p>
           </div>
         </div>
@@ -35,7 +35,7 @@ export const DiscriptionCharacter = ({id ,character}) => {
 
       <div className={`${style.cardData} card`}>
         <p className='card-text'>Height:</p>
-        <p className='card-text'>{height} cm.</p>
+        <p className='card-text'>{height} m.</p>
       </div>
 
       <div className={`${style.cardData} card`}>

@@ -26,9 +26,7 @@ export const login = (email, password, updateTokenFuntion, updateIdFunction) => 
 
     .then(body => {
       sessionStorage.setItem("token", body.access_token);
-      sessionStorage.setItem("userId", body.user_id);
       updateTokenFuntion(body.access_token);
-      updateIdFunction(body.user_id);
       return true;
     })
     

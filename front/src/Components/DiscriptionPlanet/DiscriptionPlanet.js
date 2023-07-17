@@ -2,24 +2,23 @@ import React from 'react'
 
 import style from './DiscriptionPlanet.module.css'
 
-export const DiscriptionPlanet = ({id ,planet}) => {
-  const {name, population, diameter, terrain, climate, surface_water} = planet;
+export const DiscriptionPlanet = ({planet}) => {
+  const {name, population, diameter, terrain, climate, surface_water, image, description} = planet;
 
   return (
     <>
-
     <div className={`${style.card} card my-4`}>
       <div className="row g-0">
 
         <div className="col-md-8">
-          <img src={`../assets/planets/${id}.jpg`} className={`${style.img} img-fluid rounded-start`} />
+          <img src={image} className={`${style.img} img-fluid rounded-start`} />
         </div>
 
         <div className={`${style.cardBody} col-md-4`}>
           <div className="card-body">
             <h5 className="card-title text-center">{name}</h5>
             <p className="card-text">
-              This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+              {description}
             </p>
           </div>
         </div>

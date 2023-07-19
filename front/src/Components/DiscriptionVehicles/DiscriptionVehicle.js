@@ -3,7 +3,7 @@ import React from 'react'
 import style from './DiscriptionVehicle.module.css'
 
 export const DiscriptionVehicle = ({vehicle}) => {
-  const {model, max_atmosphering_speed, crew, cargo_capacity, cost_in_credits, length, image, description} = vehicle;
+  const {model, max_speed, crew, cargo_capacity, cost_in_credits, length, image, description} = vehicle;
 
   return (
     <>
@@ -30,7 +30,7 @@ export const DiscriptionVehicle = ({vehicle}) => {
     <div className={`${style.cardGroup} card-group`}>
       <div className={`${style.cardData} card`}>
         <p className='card-text'>Speed:</p>
-        <p className='card-text'>{max_atmosphering_speed}km/h</p>
+        <p className='card-text'>{max_speed} km/h</p>
       </div>
 
       <div className={`${style.cardData} card`}>

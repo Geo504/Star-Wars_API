@@ -18,8 +18,8 @@ export const VehicleDetail = () => {
                 key={item.id}
                 vehicle={item}
               />
-            )};
-          return
+            )
+          };
         })
       }
     </div>

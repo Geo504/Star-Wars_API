@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, create_refresh_token
 import bcrypt
 
 from models.users import User
@@ -16,7 +16,7 @@ def login():
         return 'User not found!', 404
     
     if bcrypt.checkpw(password_user.encode('utf-8'), user.password):
-        access_token = create_access_token(identity=user.serialize_with_favorites())
-        return jsonify(access_token=access_token)
+        refresh_token = create_refresh_token(identity=user.serialize_with_favorites())
+        return jsonify(refresh_token=refresh_token)
     else:
         return 'Wrong password!!', 401

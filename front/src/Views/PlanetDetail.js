@@ -18,7 +18,7 @@ export const PlanetDetail = () => {
                 key={item.id}
                 planet={item}
               />
-              )
+            )
           };
         })
       }

@@ -36,7 +36,7 @@ def post_user():
 
 
 def update_user(user):
-    user_username = request.json.get('user_name')
+    # user_username = request.json.get('user_name')
     user_favorites = request.json.get('favorites')
     favorites_db = []
 
@@ -53,12 +53,12 @@ def update_user(user):
         #     favorites_db.append(favorite_vehicles)
     
     user_db = User.query.get(user["id"])
-    user_db.user_name = user_username
+    # user_db.user_name = user_username
     user_db.favorites = favorites_db
     db.session.commit()
 
     updated_user = User.query.get(user_db.id)
-    return jsonify(updated_user.serialize_with_favorites()), 200
+    return updated_user.serialize_with_favorites()
 
 
 def delete_user(user):

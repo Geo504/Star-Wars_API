@@ -12,14 +12,12 @@ export const singIn = (username ,email, password) => {
         favorites: []
       })
     })
-
     .then(resp =>{
       if (resp.status<200 && resp.status>=300){
         alert("There has been an error creating user");
       }
       else return resp.json();
     })
-    
     .catch(error => {
       console.log("Error:" + error);
     })

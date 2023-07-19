@@ -1,4 +1,4 @@
-export const login = (email, password, updateTokenFuntion, updateIdFunction) => {
+export const login = (email, password, updateTokenFuntion) => {
   return(
     fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
       method: 'POST',
@@ -25,8 +25,8 @@ export const login = (email, password, updateTokenFuntion, updateIdFunction) => 
     })
 
     .then(body => {
-      sessionStorage.setItem("token", body.access_token);
-      updateTokenFuntion(body.access_token);
+      sessionStorage.setItem("token", body.refresh_token);
+      updateTokenFuntion(body.refresh_token);
       return true;
     })
     

@@ -28,21 +28,24 @@ export const NavBar = () => {
             <li className="nav-item">
               <button className="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">{!value.store.token?'Login': 'Sing out'}</button>
             </li>
+            {
+              value.store.token?
+              (
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                    {`Favorites: ${value.store.favorites.length}`}
+                  </a>
 
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-                Favorites
-              </a>
-
-              <ul className="dropdown-menu dropdown-menu-end">
-                {
-                  <LiNavBar
-                    favorites={value.store.favorites}
-                    deleteFavorite={value.actions.deleteFavorite} />
-                } 
-              </ul>
-            </li>
-
+                  <ul className="dropdown-menu dropdown-menu-end">
+                    {
+                      <LiNavBar
+                        favorites={value.store.favorites}
+                        deleteFavorite={value.actions.deleteFavorite} />
+                    } 
+                  </ul>
+                </li>
+              ):('')
+            }
           </ul>
         </div>
 

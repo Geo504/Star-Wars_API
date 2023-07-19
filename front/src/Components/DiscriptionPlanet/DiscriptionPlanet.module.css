@@ -9,9 +9,10 @@
 }
 
 .img{
-  aspect-ratio: 2/1.4;
+  /* aspect-ratio: 2/1.4; */
   object-fit: cover;
   min-width: 100%;
+  min-height: 100%;
 }
 
 

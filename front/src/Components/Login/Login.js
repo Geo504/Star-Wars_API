@@ -60,6 +60,7 @@ export const Login = () => {
   const singOut = () =>{
     sessionStorage.removeItem("token");
     value.actions.setToken('');
+    value.actions.setUserData({});
     navigate('/');
   }
 

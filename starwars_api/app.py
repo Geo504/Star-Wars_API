@@ -6,7 +6,9 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 
 
-from models.users_favorites import User_favorite
+from models.favorites_people import Favorite_people
+from models.favorites_planets import Favorite_planet
+from models.favorites_vehicles import Favorite_vehicle
 from routes.api import api
 from utils.db import db
 

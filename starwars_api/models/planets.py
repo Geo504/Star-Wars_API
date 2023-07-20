@@ -37,3 +37,20 @@ class Planets(db.Model):
     
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+    
+    def serialize_with_users(self):
+        return {
+            "uid": self.uid,
+            "id": self.id,
+            "name": self.name,
+            "diameter": self.diameter,
+            "population": self.population,
+            "terrain": self.terrain,
+            "climate": self.climate,
+            "surface_water": self.surface_water,
+            "description": self.description,
+            "image": self.image,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "users": [user.serialize() for user in self.users]
+        }

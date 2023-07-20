@@ -9,7 +9,7 @@ export const singIn = (username ,email, password) => {
         user_name: username,
         email: email,
         password: password,
-        favorites: []
+        // favorites_people: []
       })
     })
     .then(resp =>{

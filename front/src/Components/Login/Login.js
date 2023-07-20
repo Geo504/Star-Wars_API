@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
+import { resetLikes } from '../../Utils/resertLike'
 import { login } from '../../Services/getAutentication'
 import { singIn } from '../../Services/createUser'
+import { deleteUser } from '../../Services/deleteUser'
 import { useAppContext } from '../../Context/AppContext'
 
 import style from "./Login.module.css"
@@ -17,6 +19,9 @@ export const Login = () => {
   
   const navigate = useNavigate()
   const token = value.store.token;
+  const characters = value.store.characters;
+  const planets = value.store.planets;
+  const vehicles = value.store.vehicles;
 
 
   const changeLoginForm = () => {
@@ -56,12 +61,21 @@ export const Login = () => {
 
   }
 
-
-  const singOut = () =>{
+  const logOut = () =>{
     sessionStorage.removeItem("token");
     value.actions.setToken('');
     value.actions.setUserData({});
     navigate('/');
+    resetLikes(characters, planets, vehicles);
+  }
+
+  const deleteUserFunction = () =>{
+    deleteUser(token);
+    sessionStorage.removeItem("token");
+    value.actions.setToken('');
+    value.actions.setUserData({});
+    navigate('/');
+    resetLikes(characters, planets, vehicles);
   }
 
 
@@ -81,9 +95,13 @@ export const Login = () => {
               (
                 <>
                 <h2>Welcome {value.store.userData.user_name}!!</h2>
-                <button className={style.log_out} onClick={singOut}>
-                <ion-icon name="log-out-outline"></ion-icon>
-                  Sing out
+                <button className={style.log_out} onClick={logOut}>
+                  <ion-icon name="log-out-outline"></ion-icon>
+                  Log out
+                </button>
+                <button className={style.delete_user} onClick={deleteUserFunction}>
+                <ion-icon name="trash-outline"></ion-icon>
+                  Delete user
                 </button>
                 </>
               ):(

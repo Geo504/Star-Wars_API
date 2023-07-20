@@ -37,3 +37,20 @@ class Vehicles(db.Model):
     
     def as_dict(self):
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+    
+    def serialize_with_users(self):
+        return {
+            "uid": self.uid,
+            "id": self.id,
+            "model": self.model,
+            "max_speed": self.max_speed,
+            "length": self.length,
+            "cargo_capacity": self.cargo_capacity,
+            "crew": self.crew,
+            "cost": self.cost,
+            "description": self.description,
+            "image": self.image,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+            "users": [user.serialize() for user in self.users]
+        }

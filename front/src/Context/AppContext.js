@@ -21,30 +21,48 @@ export const AppProvider = ({children}) => {
   useEffect(()=>{ 
     const localToken = sessionStorage.getItem("token");
     if (localToken && localToken!==undefined && localToken!==""){
-      setToken(localToken);
       getUserData(localToken, setUserData);
+      setToken(localToken);
       return
     }
   },[token])
 
   useEffect(()=>{
-    if (userData.favorites!==undefined && userData.favorites.length>0){
-      userData.favorites.map(person_db=>{
+    if (userData.favorites_people!==undefined && userData.favorites_people.length>0){
+      userData.favorites_people.map(person_db=>{
         characters.map(item=>{
           if(item.id === person_db.id){
-            return item.favorite = true;
+            item.favorite = true;
           }
         })
       })
-
-      const favoritesListCharacters = characters.filter((item) => item.favorite === true);
-      const favoritesListPlanets = planets.filter((item) => item.favorite === true);
-      const favoritesListVehicles = vehicles.filter((item) => item.favorite === true);
-  
-      const favoritesList = favoritesListCharacters.concat(favoritesListPlanets, favoritesListVehicles);
-      setFavorites(favoritesList);
-      return
     }
+    if (userData.favorites_planets!==undefined && userData.favorites_planets.length>0){
+      userData.favorites_planets.map(planet_db=>{
+        planets.map(item=>{
+          if(item.id === planet_db.id){
+            item.favorite = true;
+          }
+        })
+      })
+    }
+    if (userData.favorites_vehicles!==undefined && userData.favorites_vehicles.length>0){
+      userData.favorites_vehicles.map(vehicle_db=>{
+        vehicles.map(item=>{
+          if(item.id === vehicle_db.id){
+            item.favorite = true;
+          }
+        })
+      })
+    }
+
+    const favoritesListCharacters = characters.filter((item) => item.favorite === true);
+    const favoritesListPlanets = planets.filter((item) => item.favorite === true);
+    const favoritesListVehicles = vehicles.filter((item) => item.favorite === true);
+
+    const favoritesList = favoritesListCharacters.concat(favoritesListPlanets, favoritesListVehicles);
+    setFavorites(favoritesList);
+    return
   },[userData])
 
 
@@ -82,10 +100,10 @@ export const AppProvider = ({children}) => {
     handleFavorites();
   }
 
-  const deleteFavorite = (id) =>{
-    switchFavoritesCharacter(id);
-    switchFavoritesPlanets(id);
-    switchFavoritesVehicles(id);
+  const deleteFavorite = (id, element) =>{
+    if (element==='characters'){switchFavoritesCharacter(id)};
+    if (element==='planets'){switchFavoritesPlanets(id)};
+    if (element==='vehicles'){switchFavoritesVehicles(id)};
   }
 
   const handleFavorites = () =>{
@@ -97,7 +115,7 @@ export const AppProvider = ({children}) => {
     setFavorites(favoritesList);
 
     if (token && token!==undefined && token!==""){
-      const favoritesListId = favoritesListCharacters.map(person => person.id);
+      const favoritesListId = favoritesList.map(item => item.id);
       updateFavorites(token, favoritesListId, setToken);
     }
   }

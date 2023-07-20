@@ -11,8 +11,16 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime,
                            default=db.func.current_timestamp(),
                            onupdate=db.func.current_timestamp())
-    favorites = db.relationship('People',
-                                secondary='users_favorites',
+    favorites_people = db.relationship('People',
+                                secondary='favorites_peoples',
+                                backref='users',
+                                lazy=True)
+    favorites_planets = db.relationship('Planets',
+                                secondary='favorites_planets',
+                                backref='users',
+                                lazy=True)
+    favorites_vehicles = db.relationship('Vehicles',
+                                secondary='favorites_vehicles',
                                 backref='users',
                                 lazy=True)
 
@@ -36,5 +44,7 @@ class User(db.Model):
             "email": self.email,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
-            "favorites": [favorite.as_dict() for favorite in self.favorites]
+            "favorites_people": [favorite.as_dict() for favorite in self.favorites_people],
+            "favorites_planets": [favorite.as_dict() for favorite in self.favorites_planets],
+            "favorites_vehicles": [favorite.as_dict() for favorite in self.favorites_vehicles]
         }

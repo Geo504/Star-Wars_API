@@ -26,7 +26,7 @@ export const NavBar = () => {
           <ul className="navbar-nav nav-underline gap-0 ms-auto">
             
             <li className="nav-item">
-              <button className="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">{!value.store.token?'Login': 'Sing out'}</button>
+              <button className="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">{!value.store.token?'Login': 'Account'}</button>
             </li>
             {
               value.store.token?

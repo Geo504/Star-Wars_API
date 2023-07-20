@@ -25,7 +25,7 @@ export const LiNavBar = ({favorites, deleteFavorite}) => {
             <Link className={`${style.dropdownItem} dropdown-item pe-1`} to={`/${element}/${item.id}`}>
               {item.name?item.name:item.model}
             </Link>
-            <BsTrash2 className={style.iconNavBar} onClick={()=>deleteFavorite(item.id)}/>
+            <BsTrash2 className={style.iconNavBar} onClick={()=>deleteFavorite(item.id, element)}/>
           </li>
         )
       })

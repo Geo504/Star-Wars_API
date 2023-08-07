@@ -1,4 +1,7 @@
-In the project directory, run for virtual env:
+In the console, install global in your PC:
+### `pip install virtualenv`
+
+In the project directory, run for virtual env (gitbash):
 
 ### `source venv/Scripts/activate`
 

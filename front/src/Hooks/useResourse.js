@@ -8,7 +8,7 @@ export const useResourse = (url) => {
 
   useEffect(()=>{
     const fetchData = async () => {
-      const elementUrls = await apiCall(`http://localhost:5000/api/${url}/`);
+      const elementUrls = await apiCall(`${process.env.REACT_APP_API_URL}/api/${url}/`);
       setElements(elementUrls.map(element=>({favorite: false, ...element})));
     }
     fetchData();
